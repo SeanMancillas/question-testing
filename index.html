@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Survey Question Analyzer</title>
+  </head>
+  <body>
+    <h1>Survey Question Analyzer</h1>
+    <form id="survey-form">
+      <label for="question">Enter your survey question:</label>
+      <input type="text" id="question" name="question" required>
+      <button type="submit">Analyze</button>
+    </form>
+    <div id="result" style="display: none;">
+      <h2>Survey Question Analysis</h2>
+      <ul>
+        <li><strong>This looks like a <span style="color: blue;">Product</span> question.</strong> %% of accounts ask a similar job-related question. Your question is %% close to an existing question. %% number of Delighted customers currently ask this question. The most common response format for this question is a %% question with %% accounts using that format.</li>
+        <li><span style="color: blue;" id="approval-status"></span></li>
+      </ul>
+    </div>
+    <script>
+      const data = [
+        ["How did you first hear about this feature?", 3, 0, 0, 1, 2],
+        ["How likely are you to use this feature in the future?", 4, 2, 1, 1, 0],
+        ["How frequently do you use this feature?", 23, 10, 0, 0, 13],
+        ["Have you recommended this feature to others?", 4, 2, 1, 1, 0],
+        ["Was this feature easy to understand and use?", 2, 0, 0, 0, 2],
+        ["How would you rate the overall quality of this feature?", 43, 20, 20, 1, 2]
+      ];
+
+      function analyzeQuestion(event) {
+        event.preventDefault();
+
+        // Get the user input
+        const userInput = document.getElementById("question").value;
+
+        // Perform analysis on the data set
+        let similarQuestions = 0;
+        let mostCommonFormat = "";
+        let formatCount = 0;
+        let delightedCount = 0;
+        let questionType = "";
+
+        for (let i = 0; i < data.length; i++) {
+          const question = data[i][0];
+          const accounts = data[i][1];
+
+          if (question.toLowerCase() === userInput.toLowerCase()) {
+            // If the input matches a question in the data set
+            similarQuestions = accounts;
+            mostCommonFormat = getMostCommonFormat(data[i]);
+            formatCount = getFormatCount(data[i], mostCommonFormat);
+            delightedCount = data[i][1];
+            questionType = getQuestionType(question);
+            break;
+          }
+        }
+
+        // Display the analysis result
+        const resultDiv = document.getElementById("result");
+        resultDiv.style.display = "block";
+        const resultText = resultDiv.querySelector("ul li:first-child");
+        resultText.innerHTML = `<strong>This looks like a <span style="color: blue;">${questionType}</span> question.</strong> ${similarQuestions}% of accounts ask a similar job-related question. Your question is %% close to an existing question. ${delightedCount} Delighted customers currently ask this question. The most common response format for this question is a ${mostCommonFormat} question with ${formatCount} accounts using that format.`;
+
+        // Determine community approval status
+        const approvalStatus = document.getElementById("approval-status");
+        if (similarQuestions >= 50) {
+          approvalStatus.innerHTML = "This question is community approved &#x1F44D;";
+          approvalStatus.style.color = "blue";
+        } else {
+          approvalStatus.innerHTML = "This question is not community approved &#x1F44E;";
+          approvalStatus.style.color = "red";
+        }
+      }
+
+      function getMostCommonFormat(questionData) {
+        // Find the response format with the highest count
+        const formats = questionData.slice(2);
+        const maxCount = Math.max(...formats);
+        const index = formats.indexOf(maxCount);
+        switch (index) {
+          case 0:
+            return "multiple choice";
+          case 1:
+            return "text";
+          case 2:
+            return "visual";
+          case 3:
+            return "numerical scale";
+          default:
+            return "";
+        }
+      }
+
+      function getFormatCount(questionData, format) {
+        // Get the count of accounts using a particular response format
+        switch (format) {
+          case "multiple choice":
+            return questionData[2];
+          case "text":
+            return questionData[3];
+          case 2:
+            return "visual";
+          case 3:
+            return "numerical scale";
+          default:
+            return "";
+        }
+      }
+
+      function getQuestionType(question) {
+        // Determine the type of the question (e.g. product, customer support, etc.)
+        if (question.toLowerCase().includes("product")) {
+          return "<strong>Product</strong>";
+        } else {
+          return "general";
+        }
+      }
+
+      // Add event listener to the form submit button
+      const form = document.getElementById("survey-form");
+      form.addEventListener("submit", analyzeQuestion);
+    </script>
+  </body>
+</html>
+<style>
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  input[type="text"] {
+    width: 500px;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button[type="submit"] {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+</style>
