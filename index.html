@@ -59,7 +59,7 @@
         const resultDiv = document.getElementById("result");
         resultDiv.style.display = "block";
         const resultText = resultDiv.querySelector("ul li:first-child");
-        resultText.innerHTML = `<strong>This looks like a <span style="color: blue;">${questionType}</span> question.</strong> ${similarQuestions}% of accounts ask a similar job-related question. ${delightedCount} Delighted customers currently ask this question. The most common response format for this question is a ${mostCommonFormat} question with ${formatCount} accounts using that format.`;
+        resultText.innerHTML = `<strong>This looks like a <span style="color: blue;">${questionType}</span> question.</strong> ${similarQuestions}% of accounts ask a similar product-related question. ${delightedCount} Delighted customers currently ask this question. The most common response format for this question is a ${mostCommonFormat} question with ${formatCount} accounts using that format.`;
 
         // Determine community approval status
         const approvalStatus = document.getElementById("approval-status");
@@ -112,7 +112,7 @@
         if (question.toLowerCase().includes("product")) {
           return "<strong>Product</strong>";
         } else {
-          return "general";
+          return "Product";
         }
       }
 
