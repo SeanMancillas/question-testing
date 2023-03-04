@@ -13,7 +13,7 @@
     <div id="result" style="display: none;">
       <h2>Survey Question Analysis</h2>
       <ul>
-        <li><strong>This looks like a <span style="color: blue;">Product</span> question.</strong> %% of accounts ask a similar job-related question. Your question is %% close to an existing question. %% number of Delighted customers currently ask this question. The most common response format for this question is a %% question with %% accounts using that format.</li>
+        <li><strong>This looks like a <span style="color: blue;">Product</span> question.</strong> %% of accounts ask a similar product-related question. %% Delighted customers currently ask this question. The most common response format for this question is a %% question with %% accounts using that format.</li>
         <li><span style="color: blue;" id="approval-status"></span></li>
       </ul>
     </div>
@@ -24,7 +24,7 @@
         ["How frequently do you use this feature?", 23, 10, 0, 0, 13],
         ["Have you recommended this feature to others?", 4, 2, 1, 1, 0],
         ["Was this feature easy to understand and use?", 2, 0, 0, 0, 2],
-        ["How would you rate the overall quality of this feature?", 43, 20, 20, 1, 2]
+        ["How would you rate the overall quality of this feature?", 63, 20, 20, 1, 2]
       ];
 
       function analyzeQuestion(event) {
@@ -59,7 +59,7 @@
         const resultDiv = document.getElementById("result");
         resultDiv.style.display = "block";
         const resultText = resultDiv.querySelector("ul li:first-child");
-        resultText.innerHTML = `<strong>This looks like a <span style="color: blue;">${questionType}</span> question.</strong> ${similarQuestions}% of accounts ask a similar job-related question. Your question is %% close to an existing question. ${delightedCount} Delighted customers currently ask this question. The most common response format for this question is a ${mostCommonFormat} question with ${formatCount} accounts using that format.`;
+        resultText.innerHTML = `<strong>This looks like a <span style="color: blue;">${questionType}</span> question.</strong> ${similarQuestions}% of accounts ask a similar job-related question. ${delightedCount} Delighted customers currently ask this question. The most common response format for this question is a ${mostCommonFormat} question with ${formatCount} accounts using that format.`;
 
         // Determine community approval status
         const approvalStatus = document.getElementById("approval-status");
